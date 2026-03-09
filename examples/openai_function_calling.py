@@ -6,13 +6,17 @@ OpenAI Function Calling 使用示例
 import json
 import glob
 import os
+from typing import Optional
 
 # pip install openai
 from openai import OpenAI
 
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_SKILLS_DIR = os.path.join(REPO_ROOT, "skills")
 
-def load_skills(skills_dir: str = "skills") -> list[dict]:
+def load_skills(skills_dir: Optional[str] = None) -> list[dict]:
     """从 skills/ 目录递归加载所有技能定义。"""
+    skills_dir = skills_dir or os.environ.get("MYAI_SKILLS_DIR", DEFAULT_SKILLS_DIR)
     skills = []
     pattern = os.path.join(skills_dir, "**", "*.json")
     for filepath in sorted(glob.glob(pattern, recursive=True)):
