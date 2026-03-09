@@ -1,0 +1,56 @@
+{
+  "name": "code_refactor_suggest",
+  "description": "分析代码中的可维护性问题，并输出结构化的重构建议列表。",
+  "category": "code",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "需要分析的源码字符串"
+      },
+      "language": {
+        "type": "string",
+        "description": "编程语言",
+        "enum": ["javascript", "typescript", "python", "java", "go", "rust"],
+        "default": "javascript"
+      },
+      "focus_areas": {
+        "type": "array",
+        "description": "希望重点关注的重构维度",
+        "items": {
+          "type": "string",
+          "enum": ["readability", "reuse", "complexity", "naming", "testing"]
+        },
+        "default": ["readability", "complexity", "testing"]
+      }
+    },
+    "required": ["code"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含重构摘要和结构化建议列表"
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "function run(items){ for(let i=0;i<items.length;i++){ console.log(items[i]); } }",
+        "language": "javascript",
+        "focus_areas": ["readability", "reuse"]
+      },
+      "output": {
+        "summary": "发现若干可读性与可复用性问题。",
+        "suggestions": [
+          {
+            "title": "避免在核心逻辑中直接输出日志",
+            "priority": "medium",
+            "category": "readability",
+            "rationale": "console.log 会让函数职责混杂。",
+            "suggested_change": "将日志抽离或通过回调/注入的 logger 处理。"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -24,7 +24,13 @@ MyAISkills/
 │   │   ├── code_analyze.json
 │   │   ├── code_analyze.js
 │   │   ├── code_add_jsdoc.json
-│   │   └── code_add_jsdoc.js
+│   │   ├── code_add_jsdoc.js
+│   │   ├── code_add_comments.json
+│   │   ├── code_add_comments.js
+│   │   ├── code_refactor_suggest.json
+│   │   ├── code_refactor_suggest.js
+│   │   ├── code_generate_tests.json
+│   │   └── code_generate_tests.js
 │   ├── file/                # 文件操作技能
 │   │   ├── file_read.json
 │   │   ├── file_read.js
