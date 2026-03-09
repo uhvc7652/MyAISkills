@@ -9,6 +9,8 @@ A structured, AI-agent-ready skills (tools) repository. All skill definitions an
 - **Node.js Project Integration** - Via npm link and registry API
 - **Python and Other Languages** - Access skills directory through environment variables
 
+📖 **See [USAGE_EXAMPLES.md](USAGE_EXAMPLES.md) for detailed usage examples**
+
 ---
 
 ## Directory Structure

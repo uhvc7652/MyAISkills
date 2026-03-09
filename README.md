@@ -5,9 +5,11 @@
 一个结构化的、可供 AI 代理直接使用的技能（工具）定义仓库。所有技能定义和实现都集中在 `skills/` 目录下，支持：
 
 - **OpenAI Function Calling** - 通过 JSON 格式的技能定义
-- **Anthropic Tool Use** - 直接使用 JSON schema
+- **Anthropic Tool Use** - 直接使用 JSON schema  
 - **Node.js 项目集成** - 通过 npm link 和注册表 API
 - **Python 等其他语言** - 通过环境变量访问技能目录
+
+📖 **详细使用示例请参阅 [USAGE_EXAMPLES.md](USAGE_EXAMPLES.md)**
 
 ---
 
