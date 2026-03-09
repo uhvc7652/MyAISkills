@@ -151,7 +151,6 @@ function _buildTestCode(targets, includeEdgeCases) {
       lines.push('  });');
     }
 
-    lines.push('');
     lines.push('});');
     lines.push('');
   });

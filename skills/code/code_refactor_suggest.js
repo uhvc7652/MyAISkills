@@ -128,7 +128,7 @@ function _collectSuggestions(code, focusAreas) {
     });
   }
 
-  if (hasFocus('reuse') && /for\s*\(|while\s*\(/.test(code) && /return\s+\[/.test(code) === false) {
+  if (hasFocus('reuse') && /for\s*\(|while\s*\(/.test(code) && !/return\s+\[/.test(code)) {
     suggestions.push({
       title: '评估是否可提取可复用的数据处理函数',
       priority: 'low',
