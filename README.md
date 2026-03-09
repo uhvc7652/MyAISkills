@@ -10,27 +10,44 @@
 MyAISkills/
 ├── schema/                  # 技能定义的 JSON Schema
 │   └── skill.schema.json
-├── skills/                  # 技能定义文件（按类别组织）
+├── skills/                  # 技能定义和实现（按类别组织）
+│   ├── types.js             # 全局 JSDoc 类型定义
+│   ├── index.js             # 技能注册表（统一入口）
 │   ├── web/                 # 网络相关技能
-│   │   ├── web_search.json
-│   │   └── web_fetch.json
+│   │   ├── web_search.json  # 技能定义（供 AI 读取）
+│   │   ├── web_search.js    # 技能实现（含 JSDoc 注释）
+│   │   ├── web_fetch.json
+│   │   └── web_fetch.js
 │   ├── code/                # 代码相关技能
 │   │   ├── code_execute.json
-│   │   └── code_analyze.json
+│   │   ├── code_execute.js
+│   │   ├── code_analyze.json
+│   │   └── code_analyze.js
 │   ├── file/                # 文件操作技能
 │   │   ├── file_read.json
+│   │   ├── file_read.js
 │   │   ├── file_write.json
-│   │   └── file_list.json
+│   │   ├── file_write.js
+│   │   ├── file_list.json
+│   │   └── file_list.js
 │   ├── data/                # 数据处理技能
 │   │   ├── data_parse_json.json
-│   │   └── data_transform.json
+│   │   ├── data_parse_json.js
+│   │   ├── data_transform.json
+│   │   └── data_transform.js
 │   └── utility/             # 通用工具技能
 │       ├── get_current_time.json
-│       └── calculate.json
+│       ├── get_current_time.js
+│       ├── calculate.json
+│       └── calculate.js
 └── examples/                # 使用示例
     ├── openai_function_calling.py
     └── anthropic_tool_use.py
 ```
+
+> **文件约定**：每个技能由一对同名文件组成——
+> `.json` 文件描述技能接口（供 AI 模型理解）；
+> `.js` 文件提供带完整 **JSDoc** 注释的 JavaScript 实现。
 
 ---
 
@@ -71,13 +88,32 @@ MyAISkills/
 
 ## 快速开始
 
+### 通过注册表调用技能（推荐）
+
+```javascript
+const registry = require('./skills');
+
+// 列出所有已注册技能
+registry.list().forEach(s => console.log(`[${s.category}] ${s.name}`));
+
+// 直接按名称调用
+const result = await registry.invoke('calculate', { expression: 'sqrt(144)', precision: 0 });
+console.log(result.result); // 12
+
+// 转换为 OpenAI tools 格式
+const tools = registry.toOpenAITools();
+
+// 转换为 Anthropic tools 格式
+const tools = registry.toAnthropicTools();
+```
+
 ### 在 OpenAI 中加载技能
 
 ```python
 import json, glob
 
 skills = [json.load(open(f)) for f in glob.glob("skills/**/*.json", recursive=True)]
-tools  = [{"type": "function", "function": s} for s in skills]
+tools  = [{"type": "function", "function": {"name": s["name"], "description": s["description"], "parameters": s["parameters"]}} for s in skills]
 
 # 传入 OpenAI API
 response = client.chat.completions.create(
