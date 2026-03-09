@@ -1,3 +1,14 @@
 __pycache__/
 *.pyc
 *.tgz
+node_modules/
+.npm/
+*.log
+.DS_Store
+.env
+.env.local
+*.swp
+*.swo
+*~
+.vscode/settings.json
+.idea/

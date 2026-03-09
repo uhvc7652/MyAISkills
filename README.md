@@ -1,9 +1,13 @@
 # MyAISkills — AI 技能仓库
 
-一个结构化的、可供 AI 代理直接使用的技能（工具）定义仓库。支持两种格式：
+[English](README_EN.md) | 中文
 
-1. **Markdown 格式** - 用于 GitHub Copilot 和 VS Code，可通过 `/` 命令调用
-2. **JSON 格式** - 用于 OpenAI Function Calling、Anthropic Tool Use 等 AI 框架
+一个结构化的、可供 AI 代理直接使用的技能（工具）定义仓库。所有技能定义和实现都集中在 `skills/` 目录下，支持：
+
+- **OpenAI Function Calling** - 通过 JSON 格式的技能定义
+- **Anthropic Tool Use** - 直接使用 JSON schema
+- **Node.js 项目集成** - 通过 npm link 和注册表 API
+- **Python 等其他语言** - 通过环境变量访问技能目录
 
 ---
 
@@ -11,17 +15,7 @@
 
 ```
 MyAISkills/
-├── .github/
-│   └── copilot/             # GitHub Copilot 技能定义（Markdown 格式）
-│       ├── instructions.md  # Copilot 主入口文件
-│       └── skills/          # Markdown 格式技能文件
-│           ├── code_analyze.md
-│           ├── file_read.md
-│           ├── web_search.md
-│           └── ...          # 其他技能
-├── schema/                  # 技能定义的 JSON Schema
-│   └── skill.schema.json
-├── skills/                  # 技能定义和实现（JSON 格式，按类别组织）
+├── skills/                  # 所有技能定义和实现（按类别组织）
 │   ├── types.js             # 全局 JSDoc 类型定义
 │   ├── index.js             # 技能注册表（统一入口）
 │   ├── web/                 # 网络相关技能
@@ -59,14 +53,24 @@ MyAISkills/
 │       ├── get_current_time.js
 │       ├── calculate.json
 │       └── calculate.js
-└── examples/                # 使用示例
-    ├── openai_function_calling.py
-    └── anthropic_tool_use.py
+├── schema/                  # 技能定义的 JSON Schema
+│   └── skill.schema.json
+├── scripts/                 # 辅助脚本
+│   ├── validate-skills.js   # 验证技能定义
+│   └── check-setup.js       # 检查安装设置
+├── bin/                     # CLI 工具
+│   └── myaiskills.js        # 命令行工具
+├── examples/                # 使用示例
+│   ├── openai_function_calling.py
+│   └── anthropic_tool_use.py
+├── index.js                 # 包入口文件
+└── package.json             # npm 包配置
 ```
 
-> **两种格式说明**：
-> - **Markdown 格式** (`.github/copilot/`): 用于 VS Code 中的 GitHub Copilot，可通过 `/` 命令直接调用
-> - **JSON 格式** (`skills/`): 每个技能由一对同名文件组成 — `.json` 文件描述技能接口，`.js` 文件提供实现
+> **技能格式说明**：
+> 每个技能由一对同名文件组成：
+> - **`.json` 文件** - 描述技能的接口（name, description, parameters, returns）
+> - **`.js` 文件** - 提供技能的实际实现代码
 
 ---
 
@@ -107,29 +111,28 @@ MyAISkills/
 
 ## 快速开始
 
-### 在 VS Code 中使用（GitHub Copilot）
+### 安装和验证
 
-这些技能可以直接在 VS Code 中通过 GitHub Copilot 使用，无需额外配置。
+```bash
+# 1. 克隆仓库
+git clone https://github.com/uhvc7652/MyAISkills.git
+cd MyAISkills
 
-#### 使用方法
+# 2. 链接到全局（可选，用于其他项目访问）
+npm link
 
-1. **克隆仓库到本地**
-   ```bash
-   git clone https://github.com/uhvc7652/MyAISkills.git
-   ```
+# 3. 验证安装是否正确
+npm run check-setup
 
-2. **在 VS Code 中打开项目**
-   - GitHub Copilot 会自动识别 `.github/copilot/` 目录
-   - 所有的 Markdown 技能文件都可以通过 `/` 命令调用
+# 4. 验证所有技能定义
+npm run validate
+```
 
-3. **使用技能**
-   - 在 Copilot Chat 中输入 `/` 开始使用技能
-   - 例如：询问 "如何使用 code_analyze 分析代码？"
-   - Copilot 会自动参考对应的技能文档来帮助你
+### 技能列表
 
-#### 可用技能
+所有技能都位于 `skills/` 目录下，按类别组织：
 
-**代码类 (Code)**
+**代码类 (Code)** - `skills/code/`
 - `code_analyze` - 代码静态分析
 - `code_refactor_suggest` - 重构建议
 - `code_add_comments` - 添加注释
@@ -137,20 +140,20 @@ MyAISkills/
 - `code_generate_tests` - 生成测试用例
 - `code_execute` - 执行代码
 
-**文件类 (File)**
+**文件类 (File)** - `skills/file/`
 - `file_read` - 读取文件
 - `file_write` - 写入文件
 - `file_list` - 列出目录
 
-**网络类 (Web)**
+**网络类 (Web)** - `skills/web/`
 - `web_search` - 网络搜索
 - `web_fetch` - 获取网页内容
 
-**数据类 (Data)**
+**数据类 (Data)** - `skills/data/`
 - `data_parse_json` - JSON 解析
 - `data_transform` - 数据转换
 
-**工具类 (Utility)**
+**工具类 (Utility)** - `skills/utility/`
 - `get_current_time` - 获取当前时间
 - `calculate` - 数学计算
 
@@ -236,12 +239,32 @@ response = client.messages.create(
 
 ---
 
+## 测试与验证
+
+```bash
+# 验证所有技能（检查 JSON/JS 配对、schema 合规性、注册表加载）
+npm run validate
+
+# 检查设置和安装
+npm run check-setup
+
+# 运行所有检查
+npm test
+```
+
+---
+
 ## 贡献技能
 
-1. 在对应类别目录下新建 `<skill_name>.json`
+欢迎贡献新的技能！详细指南请参阅 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+快速概览：
+1. 在对应类别目录下新建 `<skill_name>.json` 和 `<skill_name>.js`
 2. 确保内容通过 `schema/skill.schema.json` 校验
 3. 在 `examples` 字段中提供至少一个输入/输出示例
-4. 提交 Pull Request，说明技能的用途和适用场景
+4. 在 `skills/index.js` 中注册技能
+5. 运行 `npm run validate` 确保一切正常
+6. 提交 Pull Request，说明技能的用途和适用场景
 
 ---
 
