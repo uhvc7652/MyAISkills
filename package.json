@@ -19,9 +19,13 @@
     "bin/",
     "skills/",
     "schema/",
+    "scripts/",
     "index.js",
     "README.md",
     "README_EN.md",
+    "CONTRIBUTING.md",
+    "USAGE_EXAMPLES.md",
+    "QUICKSTART.md",
     "LICENSE"
   ],
   "keywords": [
