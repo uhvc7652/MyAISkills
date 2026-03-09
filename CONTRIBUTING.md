@@ -323,25 +323,27 @@ const path = require('path');
 const fs = require('fs').promises;
 
 async function safeFileRead(params) {
-  // 1. 验证路径 / Validate path
-  const filePath = path.resolve(params.path);
+  // 1. 验证并规范化路径 / Validate and normalize path
+  const filePath = path.resolve(path.normalize(params.path));
   
   // 2. 防止目录遍历 / Prevent directory traversal
-  if (filePath.includes('..') || !path.isAbsolute(filePath)) {
-    throw new Error('Invalid file path');
+  // 确保规范化后的路径在允许的目录内
+  const allowedDir = path.resolve('/allowed/directory');
+  if (!filePath.startsWith(allowedDir)) {
+    throw new Error(`Access denied: File must be within ${allowedDir}`);
   }
   
   // 3. 检查文件存在 / Check file exists
   try {
     await fs.access(filePath);
   } catch {
-    throw new Error('File not found');
+    throw new Error(`File not found: ${params.path}`);
   }
   
   // 4. 限制文件大小 / Limit file size
   const stats = await fs.stat(filePath);
   if (stats.size > 10 * 1024 * 1024) { // 10MB
-    throw new Error('File too large');
+    throw new Error(`File too large: ${stats.size} bytes (max 10MB)`);
   }
   
   // 5. 读取文件 / Read file

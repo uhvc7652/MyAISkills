@@ -31,7 +31,7 @@ function checkNodeVersion() {
   const major = parseInt(version.slice(1).split('.')[0]);
   
   if (major < 16) {
-    log('ERROR', `Node.js ${version} is too old. Please upgrade to Node.js 16 or higher.`);
+    log('ERROR', `Node.js ${version} is too old. Node.js 16.0.0 or higher is required (as specified in package.json).`);
     errors++;
     return false;
   }
