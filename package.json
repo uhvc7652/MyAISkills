@@ -1,0 +1,11 @@
+{
+  "name": "myaiskills",
+  "version": "1.0.0",
+  "description": "Shared AI skill registry for local projects",
+  "private": true,
+  "main": "index.js",
+  "type": "commonjs",
+  "bin": {
+    "myaiskills": "bin/myaiskills.js"
+  }
+}
