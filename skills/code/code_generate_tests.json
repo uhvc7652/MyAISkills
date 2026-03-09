@@ -1,0 +1,55 @@
+{
+  "name": "code_generate_tests",
+  "description": "根据 JavaScript 或 TypeScript 源码生成基础单元测试模板，适合 Jest 或 Vitest 场景。",
+  "category": "code",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "需要生成测试的源码字符串"
+      },
+      "language": {
+        "type": "string",
+        "description": "源码语言，仅支持 JavaScript 或 TypeScript",
+        "enum": ["javascript", "typescript"],
+        "default": "javascript"
+      },
+      "framework": {
+        "type": "string",
+        "description": "目标测试框架",
+        "enum": ["jest", "vitest"],
+        "default": "jest"
+      },
+      "include_edge_cases": {
+        "type": "boolean",
+        "description": "是否为每个检测到的函数补充边界场景占位测试",
+        "default": true
+      }
+    },
+    "required": ["code"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含生成的测试代码和识别到的目标符号列表"
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "function sum(a, b) {\n  return a + b;\n}\n",
+        "language": "javascript",
+        "framework": "jest"
+      },
+      "output": {
+        "test_code": "describe('sum', () => {\n  it('handles the happy path', () => {\n    // TODO: 调用 sum 并补充断言\n  });\n\n  it('handles edge cases', () => {\n    // TODO: 补充边界条件断言\n  });\n});\n",
+        "targets": [
+          {
+            "name": "sum",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ]
+}

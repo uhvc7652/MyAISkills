@@ -1,0 +1,60 @@
+{
+  "name": "code_add_jsdoc",
+  "description": "为 JavaScript 或 TypeScript 代码补充基础 JSDoc 注释模板，包括文件说明、函数参数和返回值占位说明。",
+  "category": "code",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "需要补充 JSDoc 注释的源码字符串"
+      },
+      "language": {
+        "type": "string",
+        "description": "源码语言，仅支持 JavaScript 或 TypeScript",
+        "enum": ["javascript", "typescript"],
+        "default": "javascript"
+      },
+      "include_fileoverview": {
+        "type": "boolean",
+        "description": "是否在文件顶部补充 @fileoverview 注释",
+        "default": true
+      },
+      "include_private": {
+        "type": "boolean",
+        "description": "是否为以下划线开头的私有符号补充注释",
+        "default": false
+      }
+    },
+    "required": ["code"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含补充了 JSDoc 注释的代码文本以及新增注释摘要"
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "function sum(a, b) {\n  return a + b;\n}\n",
+        "language": "javascript",
+        "include_fileoverview": true
+      },
+      "output": {
+        "documented_code": "/**\n * @fileoverview TODO: 补充当前文件说明。\n */\n\n/**\n * TODO: 补充 sum 的函数说明。\n * @param {*} a - TODO: 补充参数说明。\n * @param {*} b - TODO: 补充参数说明。\n * @returns {*} TODO: 补充返回值说明。\n */\nfunction sum(a, b) {\n  return a + b;\n}\n",
+        "added_blocks": [
+          {
+            "type": "file",
+            "name": "@fileoverview",
+            "line": 1
+          },
+          {
+            "type": "function",
+            "name": "sum",
+            "line": 5
+          }
+        ]
+      }
+    }
+  ]
+}

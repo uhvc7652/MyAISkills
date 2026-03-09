@@ -29,6 +29,10 @@ const { webSearch }     = require('./web/web_search');
 const { webFetch }      = require('./web/web_fetch');
 const { codeExecute }   = require('./code/code_execute');
 const { codeAnalyze }   = require('./code/code_analyze');
+const { codeAddJsdoc }  = require('./code/code_add_jsdoc');
+const { codeAddComments } = require('./code/code_add_comments');
+const { codeRefactorSuggest } = require('./code/code_refactor_suggest');
+const { codeGenerateTests } = require('./code/code_generate_tests');
 const { fileRead }      = require('./file/file_read');
 const { fileWrite }     = require('./file/file_write');
 const { fileList }      = require('./file/file_list');
@@ -42,6 +46,10 @@ const webSearchDef     = require('./web/web_search.json');
 const webFetchDef      = require('./web/web_fetch.json');
 const codeExecuteDef   = require('./code/code_execute.json');
 const codeAnalyzeDef   = require('./code/code_analyze.json');
+const codeAddJsdocDef  = require('./code/code_add_jsdoc.json');
+const codeAddCommentsDef = require('./code/code_add_comments.json');
+const codeRefactorSuggestDef = require('./code/code_refactor_suggest.json');
+const codeGenerateTestsDef = require('./code/code_generate_tests.json');
 const fileReadDef      = require('./file/file_read.json');
 const fileWriteDef     = require('./file/file_write.json');
 const fileListDef      = require('./file/file_list.json');
@@ -62,6 +70,10 @@ const _registry = new Map([
   ['web_fetch',       { definition: webFetchDef,       handler: webFetch }],
   ['code_execute',    { definition: codeExecuteDef,    handler: codeExecute }],
   ['code_analyze',    { definition: codeAnalyzeDef,    handler: codeAnalyze }],
+  ['code_add_jsdoc',  { definition: codeAddJsdocDef,   handler: codeAddJsdoc }],
+  ['code_add_comments', { definition: codeAddCommentsDef, handler: codeAddComments }],
+  ['code_refactor_suggest', { definition: codeRefactorSuggestDef, handler: codeRefactorSuggest }],
+  ['code_generate_tests', { definition: codeGenerateTestsDef, handler: codeGenerateTests }],
   ['file_read',       { definition: fileReadDef,       handler: fileRead }],
   ['file_write',      { definition: fileWriteDef,      handler: fileWrite }],
   ['file_list',       { definition: fileListDef,       handler: fileList }],

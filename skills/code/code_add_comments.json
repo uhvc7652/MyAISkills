@@ -1,0 +1,66 @@
+{
+  "name": "code_add_comments",
+  "description": "为 JavaScript 或 TypeScript 代码补充普通注释，帮助解释文件用途、函数职责和关键返回逻辑。",
+  "category": "code",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "需要补充普通注释的源码字符串"
+      },
+      "language": {
+        "type": "string",
+        "description": "源码语言，仅支持 JavaScript 或 TypeScript",
+        "enum": ["javascript", "typescript"],
+        "default": "javascript"
+      },
+      "include_file_comment": {
+        "type": "boolean",
+        "description": "是否在文件顶部补充文件级普通注释",
+        "default": true
+      },
+      "include_inline_return_comments": {
+        "type": "boolean",
+        "description": "是否在 return 语句前补充一行说明注释",
+        "default": false
+      }
+    },
+    "required": ["code"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含补充了普通注释的代码文本以及新增注释摘要"
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "function sum(a, b) {\n  return a + b;\n}\n",
+        "language": "javascript",
+        "include_file_comment": true,
+        "include_inline_return_comments": true
+      },
+      "output": {
+        "commented_code": "// TODO: 补充当前文件的用途说明。\n\n// TODO: 说明 sum 的主要职责。\nfunction sum(a, b) {\n  // TODO: 说明这里返回的结果含义。\n  return a + b;\n}\n",
+        "added_comments": [
+          {
+            "type": "file",
+            "name": "file_comment",
+            "line": 1
+          },
+          {
+            "type": "function",
+            "name": "sum",
+            "line": 3
+          },
+          {
+            "type": "inline",
+            "name": "return",
+            "line": 5
+          }
+        ]
+      }
+    }
+  ]
+}
