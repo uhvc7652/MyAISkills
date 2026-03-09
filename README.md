@@ -22,7 +22,9 @@ MyAISkills/
 │   │   ├── code_execute.json
 │   │   ├── code_execute.js
 │   │   ├── code_analyze.json
-│   │   └── code_analyze.js
+│   │   ├── code_analyze.js
+│   │   ├── code_add_jsdoc.json
+│   │   └── code_add_jsdoc.js
 │   ├── file/                # 文件操作技能
 │   │   ├── file_read.json
 │   │   ├── file_read.js
