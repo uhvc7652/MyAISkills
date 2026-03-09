@@ -1,11 +1,46 @@
 {
   "name": "myaiskills",
   "version": "1.0.0",
-  "description": "Shared AI skill registry for local projects",
-  "private": true,
+  "description": "A structured AI skills repository for OpenAI Function Calling, Anthropic Tool Use, and GitHub Copilot",
   "main": "index.js",
   "type": "commonjs",
   "bin": {
     "myaiskills": "bin/myaiskills.js"
-  }
+  },
+  "scripts": {
+    "validate": "node scripts/validate-skills.js",
+    "check-setup": "node scripts/check-setup.js",
+    "test": "echo \"No tests yet. Run 'npm run validate' to check skills.\" && npm run validate"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "bin/",
+    "skills/",
+    "schema/",
+    "index.js",
+    "README.md",
+    "README_EN.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "ai",
+    "skills",
+    "openai",
+    "anthropic",
+    "function-calling",
+    "tool-use",
+    "github-copilot",
+    "ai-tools",
+    "llm",
+    "gpt"
+  ],
+  "author": "uhvc7652",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uhvc7652/MyAISkills.git"
+  },
+  "homepage": "https://github.com/uhvc7652/MyAISkills#readme"
 }
