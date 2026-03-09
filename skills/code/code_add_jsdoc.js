@@ -134,13 +134,23 @@ function _matchDeclaration(line) {
     };
   }
 
-  const arrowFunctionMatch = line.match(/^(\s*)(?:export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?\(?([^=()]*)\)?\s*=>/);
+  const arrowFunctionMatch = line.match(/^(\s*)(?:export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?\((.*)\)\s*=>/);
   if (arrowFunctionMatch) {
     return {
       kind: 'function',
       indent: arrowFunctionMatch[1],
       name: arrowFunctionMatch[2],
       params: arrowFunctionMatch[3],
+    };
+  }
+
+  const singleParamArrowFunctionMatch = line.match(/^(\s*)(?:export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?([A-Za-z_$][\w$]*)\s*=>/);
+  if (singleParamArrowFunctionMatch) {
+    return {
+      kind: 'function',
+      indent: singleParamArrowFunctionMatch[1],
+      name: singleParamArrowFunctionMatch[2],
+      params: singleParamArrowFunctionMatch[3],
     };
   }
 
@@ -248,17 +258,25 @@ function _buildClassJsdoc(indent, name) {
  * @returns {string[]} 参数名列表
  */
 function _extractParamNames(paramsSource) {
+  let generatedParamIndex = 0;
+
   return paramsSource
     .split(',')
     .map((param) => param.trim())
     .filter(Boolean)
-    .map((param, index) => {
+    .map((param) => {
       const withoutDefault = param.split('=')[0].trim();
       const withoutType = withoutDefault.split(':')[0].trim().replace(/^\.\.\./, '');
       if (withoutType.startsWith('{') || withoutType.startsWith('[')) {
-        return index === 0 ? 'options' : `param${index + 1}`;
+        generatedParamIndex += 1;
+        return `destructured_${generatedParamIndex}`;
       }
-      return withoutType || `param${index + 1}`;
+      if (withoutType) {
+        return withoutType;
+      }
+
+      generatedParamIndex += 1;
+      return `param_${generatedParamIndex}`;
     });
 }
 
