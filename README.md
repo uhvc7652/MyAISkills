@@ -1,6 +1,9 @@
 # MyAISkills — AI 技能仓库
 
-一个结构化的、可供 AI 代理直接使用的技能（工具）定义仓库。每个技能都遵循统一的 JSON Schema，可无缝对接 OpenAI Function Calling、Anthropic Tool Use 等主流 AI 框架。
+一个结构化的、可供 AI 代理直接使用的技能（工具）定义仓库。支持两种格式：
+
+1. **Markdown 格式** - 用于 GitHub Copilot 和 VS Code，可通过 `/` 命令调用
+2. **JSON 格式** - 用于 OpenAI Function Calling、Anthropic Tool Use 等 AI 框架
 
 ---
 
@@ -8,9 +11,17 @@
 
 ```
 MyAISkills/
+├── .github/
+│   └── copilot/             # GitHub Copilot 技能定义（Markdown 格式）
+│       ├── instructions.md  # Copilot 主入口文件
+│       └── skills/          # Markdown 格式技能文件
+│           ├── code_analyze.md
+│           ├── file_read.md
+│           ├── web_search.md
+│           └── ...          # 其他技能
 ├── schema/                  # 技能定义的 JSON Schema
 │   └── skill.schema.json
-├── skills/                  # 技能定义和实现（按类别组织）
+├── skills/                  # 技能定义和实现（JSON 格式，按类别组织）
 │   ├── types.js             # 全局 JSDoc 类型定义
 │   ├── index.js             # 技能注册表（统一入口）
 │   ├── web/                 # 网络相关技能
@@ -53,9 +64,9 @@ MyAISkills/
     └── anthropic_tool_use.py
 ```
 
-> **文件约定**：每个技能由一对同名文件组成——
-> `.json` 文件描述技能接口（供 AI 模型理解）；
-> `.js` 文件提供带完整 **JSDoc** 注释的 JavaScript 实现。
+> **两种格式说明**：
+> - **Markdown 格式** (`.github/copilot/`): 用于 VS Code 中的 GitHub Copilot，可通过 `/` 命令直接调用
+> - **JSON 格式** (`skills/`): 每个技能由一对同名文件组成 — `.json` 文件描述技能接口，`.js` 文件提供实现
 
 ---
 
@@ -96,7 +107,56 @@ MyAISkills/
 
 ## 快速开始
 
-### 作为本机全局 Skills 使用（推荐）
+### 在 VS Code 中使用（GitHub Copilot）
+
+这些技能可以直接在 VS Code 中通过 GitHub Copilot 使用，无需额外配置。
+
+#### 使用方法
+
+1. **克隆仓库到本地**
+   ```bash
+   git clone https://github.com/uhvc7652/MyAISkills.git
+   ```
+
+2. **在 VS Code 中打开项目**
+   - GitHub Copilot 会自动识别 `.github/copilot/` 目录
+   - 所有的 Markdown 技能文件都可以通过 `/` 命令调用
+
+3. **使用技能**
+   - 在 Copilot Chat 中输入 `/` 开始使用技能
+   - 例如：询问 "如何使用 code_analyze 分析代码？"
+   - Copilot 会自动参考对应的技能文档来帮助你
+
+#### 可用技能
+
+**代码类 (Code)**
+- `code_analyze` - 代码静态分析
+- `code_refactor_suggest` - 重构建议
+- `code_add_comments` - 添加注释
+- `code_add_jsdoc` - 生成 JSDoc 文档
+- `code_generate_tests` - 生成测试用例
+- `code_execute` - 执行代码
+
+**文件类 (File)**
+- `file_read` - 读取文件
+- `file_write` - 写入文件
+- `file_list` - 列出目录
+
+**网络类 (Web)**
+- `web_search` - 网络搜索
+- `web_fetch` - 获取网页内容
+
+**数据类 (Data)**
+- `data_parse_json` - JSON 解析
+- `data_transform` - 数据转换
+
+**工具类 (Utility)**
+- `get_current_time` - 获取当前时间
+- `calculate` - 数学计算
+
+---
+
+### 作为本机全局 Skills 使用（Node.js / Python）
 
 这个仓库可以在本地克隆后，作为本机所有项目共享的一套通用 skills。
 
