@@ -225,7 +225,7 @@ print(response.content)
 ### Dockerfile 示例 / Dockerfile Example
 
 ```dockerfile
-FROM node:16
+FROM node:16.20.0
 
 WORKDIR /app
 

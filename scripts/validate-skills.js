@@ -67,7 +67,7 @@ function validateSkillPair(category, skillName, jsonPath, jsPath) {
     
     // Check if JS file exports the expected function
     const jsContent = fs.readFileSync(jsPath, 'utf8');
-    const expectedExport = skillName.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+    const expectedExport = skillName.replace(/_([a-zA-Z])/g, (_, c) => c.toUpperCase());
     if (!jsContent.includes(`exports.${expectedExport}`) && !jsContent.includes(`module.exports = {`)) {
       log('WARN', `${skillName}: JS file may not export "${expectedExport}" function`);
       warnings++;
