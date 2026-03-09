@@ -1,0 +1,45 @@
+{
+  "name": "web_fetch",
+  "description": "获取指定 URL 网页的内容。当需要读取某个具体网页的文章、文档或数据时使用此技能。",
+  "category": "web",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "url": {
+        "type": "string",
+        "description": "要获取内容的完整 URL 地址",
+        "format": "uri"
+      },
+      "format": {
+        "type": "string",
+        "description": "返回内容的格式：'text' 返回纯文本，'markdown' 返回 Markdown 格式，'html' 返回原始 HTML",
+        "enum": ["text", "markdown", "html"],
+        "default": "markdown"
+      },
+      "timeout": {
+        "type": "integer",
+        "description": "请求超时时间（秒），默认 10 秒",
+        "default": 10,
+        "minimum": 1,
+        "maximum": 60
+      }
+    },
+    "required": ["url"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含网页标题、URL、内容及元信息"
+  },
+  "examples": [
+    {
+      "input": { "url": "https://example.com/article", "format": "markdown" },
+      "output": {
+        "title": "示例文章标题",
+        "url": "https://example.com/article",
+        "content": "# 示例文章标题\n\n这是文章正文内容...",
+        "fetched_at": "2025-01-01T12:00:00Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "file_read",
+  "description": "读取本地文件的内容。支持文本文件、JSON、CSV 等格式。当用户要求查看或分析某个文件内容时使用。",
+  "category": "file",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "path": {
+        "type": "string",
+        "description": "文件的绝对路径或相对路径"
+      },
+      "encoding": {
+        "type": "string",
+        "description": "文件编码格式，默认 UTF-8",
+        "default": "utf-8"
+      },
+      "start_line": {
+        "type": "integer",
+        "description": "从第几行开始读取（从 1 计数），不填则从头读取",
+        "minimum": 1
+      },
+      "end_line": {
+        "type": "integer",
+        "description": "读取到第几行结束，不填则读到末尾",
+        "minimum": 1
+      }
+    },
+    "required": ["path"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含文件内容字符串、总行数和文件大小"
+  },
+  "examples": [
+    {
+      "input": { "path": "/home/user/notes.txt", "start_line": 1, "end_line": 10 },
+      "output": {
+        "content": "第一行内容\n第二行内容\n...",
+        "total_lines": 50,
+        "size_bytes": 1024
+      }
+    }
+  ]
+}

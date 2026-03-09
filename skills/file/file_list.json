@@ -1,0 +1,46 @@
+{
+  "name": "file_list",
+  "description": "列出指定目录下的文件和子目录。可按名称模式过滤，支持递归列出。当需要了解某个目录结构时使用。",
+  "category": "file",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "path": {
+        "type": "string",
+        "description": "要列出内容的目录路径"
+      },
+      "pattern": {
+        "type": "string",
+        "description": "文件名 glob 匹配模式，如 '*.py'、'*.json'，不填则列出全部"
+      },
+      "recursive": {
+        "type": "boolean",
+        "description": "是否递归列出所有子目录中的文件，默认 false",
+        "default": false
+      },
+      "include_hidden": {
+        "type": "boolean",
+        "description": "是否包含隐藏文件（以 . 开头），默认 false",
+        "default": false
+      }
+    },
+    "required": ["path"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含条目列表，每项含名称、类型（file/directory）、大小和修改时间"
+  },
+  "examples": [
+    {
+      "input": { "path": "/home/user/projects", "pattern": "*.py", "recursive": true },
+      "output": {
+        "entries": [
+          { "name": "main.py", "type": "file", "size_bytes": 2048, "modified_at": "2025-01-01T10:00:00Z" },
+          { "name": "utils.py", "type": "file", "size_bytes": 512, "modified_at": "2025-01-02T08:30:00Z" }
+        ],
+        "total": 2
+      }
+    }
+  ]
+}

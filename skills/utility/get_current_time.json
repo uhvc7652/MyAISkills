@@ -1,0 +1,40 @@
+{
+  "name": "get_current_time",
+  "description": "获取当前的日期和时间信息。支持指定时区。当用户询问现在几点、今天几号或需要时间戳时使用。",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "timezone": {
+        "type": "string",
+        "description": "IANA 时区名称，如 'Asia/Shanghai'、'America/New_York'、'UTC'，默认 'Asia/Shanghai'",
+        "default": "Asia/Shanghai"
+      },
+      "format": {
+        "type": "string",
+        "description": "返回时间的格式：'iso8601' 返回 ISO 8601 格式，'human' 返回人类友好格式",
+        "enum": ["iso8601", "human"],
+        "default": "human"
+      }
+    },
+    "required": []
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含当前日期、时间、星期和时间戳"
+  },
+  "examples": [
+    {
+      "input": { "timezone": "Asia/Shanghai", "format": "human" },
+      "output": {
+        "datetime": "2025年1月1日 星期三 14:30:00",
+        "date": "2025-01-01",
+        "time": "14:30:00",
+        "weekday": "星期三",
+        "timestamp": 1735716600,
+        "timezone": "Asia/Shanghai"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "name": "web_search",
+  "description": "在互联网上搜索信息。当用户询问需要最新资讯、新闻、事实或任何需要联网查询的内容时使用此技能。",
+  "category": "web",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "搜索关键词或自然语言问题"
+      },
+      "num_results": {
+        "type": "integer",
+        "description": "期望返回的搜索结果数量，默认为 5",
+        "default": 5,
+        "minimum": 1,
+        "maximum": 20
+      },
+      "language": {
+        "type": "string",
+        "description": "搜索结果的语言偏好，如 'zh-CN'、'en-US'",
+        "default": "zh-CN"
+      }
+    },
+    "required": ["query"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含搜索结果列表，每条结果含标题、URL 和摘要"
+  },
+  "examples": [
+    {
+      "input": { "query": "2025年最新AI大模型排行", "num_results": 3 },
+      "output": {
+        "results": [
+          {
+            "title": "2025年AI大模型全面评测",
+            "url": "https://example.com/ai-ranking-2025",
+            "snippet": "本文对2025年主流AI大模型进行了全面评测..."
+          }
+        ]
+      }
+    }
+  ]
+}

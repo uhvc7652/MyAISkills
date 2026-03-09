@@ -1,0 +1,54 @@
+{
+  "name": "file_write",
+  "description": "将内容写入本地文件。可以创建新文件或覆盖/追加到已有文件。当需要保存生成的内容、报告或数据时使用。",
+  "category": "file",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "path": {
+        "type": "string",
+        "description": "目标文件的绝对路径或相对路径"
+      },
+      "content": {
+        "type": "string",
+        "description": "要写入的文本内容"
+      },
+      "mode": {
+        "type": "string",
+        "description": "'overwrite' 覆盖写入，'append' 追加到末尾",
+        "enum": ["overwrite", "append"],
+        "default": "overwrite"
+      },
+      "encoding": {
+        "type": "string",
+        "description": "文件编码格式，默认 UTF-8",
+        "default": "utf-8"
+      },
+      "create_dirs": {
+        "type": "boolean",
+        "description": "若目录不存在是否自动创建，默认 true",
+        "default": true
+      }
+    },
+    "required": ["path", "content"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含操作是否成功、写入字节数和文件路径"
+  },
+  "examples": [
+    {
+      "input": {
+        "path": "/home/user/report.md",
+        "content": "# 分析报告\n\n本次分析结论如下...",
+        "mode": "overwrite"
+      },
+      "output": {
+        "success": true,
+        "bytes_written": 256,
+        "path": "/home/user/report.md"
+      }
+    }
+  ]
+}

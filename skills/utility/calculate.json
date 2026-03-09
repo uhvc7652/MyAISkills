@@ -1,0 +1,45 @@
+{
+  "name": "calculate",
+  "description": "安全地计算数学表达式的结果。当用户需要进行数学计算时使用，避免直接执行任意代码。支持的运算：基础四则运算（+ - * / **）、取余（%）；数学函数：sqrt、abs、ceil、floor、round；三角函数：sin、cos、tan、asin、acos、atan、atan2；对数与指数：log（自然对数）、log2、log10、exp；常量：pi、e。",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "expression": {
+        "type": "string",
+        "description": "数学表达式字符串，如 '2 + 3 * 4'、'sqrt(144)'、'sin(pi/6)'"
+      },
+      "precision": {
+        "type": "integer",
+        "description": "结果保留的小数位数，默认 6",
+        "default": 6,
+        "minimum": 0,
+        "maximum": 15
+      }
+    },
+    "required": ["expression"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含表达式和计算结果"
+  },
+  "examples": [
+    {
+      "input": { "expression": "sqrt(2) * 100", "precision": 4 },
+      "output": {
+        "expression": "sqrt(2) * 100",
+        "result": 141.4214,
+        "success": true
+      }
+    },
+    {
+      "input": { "expression": "(1 + 2) * (3 + 4)", "precision": 0 },
+      "output": {
+        "expression": "(1 + 2) * (3 + 4)",
+        "result": 21,
+        "success": true
+      }
+    }
+  ]
+}

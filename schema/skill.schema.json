@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/uhvc7652/MyAISkills/schema/skill.schema.json",
+  "title": "AI Skill Definition",
+  "description": "定义 AI 代理可调用技能的统一 Schema",
+  "type": "object",
+  "required": ["name", "description", "category", "version", "parameters"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "技能唯一标识符，使用小写字母和下划线",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "description": {
+      "type": "string",
+      "description": "技能功能的自然语言描述，AI 依此判断何时调用该技能",
+      "minLength": 10
+    },
+    "category": {
+      "type": "string",
+      "description": "技能所属类别",
+      "enum": ["web", "code", "file", "data", "utility"]
+    },
+    "version": {
+      "type": "string",
+      "description": "技能版本号（语义化版本）",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "技能参数的 JSON Schema 定义",
+      "required": ["type", "properties"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["object"]
+        },
+        "properties": {
+          "type": "object",
+          "description": "各参数的定义"
+        },
+        "required": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "必填参数列表"
+        }
+      }
+    },
+    "returns": {
+      "type": "object",
+      "description": "返回值的结构描述",
+      "properties": {
+        "type": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "description": "输入/输出示例列表",
+      "items": {
+        "type": "object",
+        "required": ["input", "output"],
+        "properties": {
+          "input": { "type": "object" },
+          "output": { "type": "object" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

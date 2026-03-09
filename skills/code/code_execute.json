@@ -1,0 +1,47 @@
+{
+  "name": "code_execute",
+  "description": "在沙箱环境中执行代码片段并返回结果。支持 Python、JavaScript 等语言。当需要进行计算、数据处理或验证逻辑时使用。",
+  "category": "code",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "要执行的代码字符串"
+      },
+      "language": {
+        "type": "string",
+        "description": "编程语言",
+        "enum": ["python", "javascript", "bash"],
+        "default": "python"
+      },
+      "timeout": {
+        "type": "integer",
+        "description": "执行超时时间（秒），默认 30 秒",
+        "default": 30,
+        "minimum": 1,
+        "maximum": 120
+      }
+    },
+    "required": ["code"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含标准输出、标准错误、退出码和执行耗时"
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "result = sum(range(1, 101))\nprint(f'1到100的和为：{result}')",
+        "language": "python"
+      },
+      "output": {
+        "stdout": "1到100的和为：5050\n",
+        "stderr": "",
+        "exit_code": 0,
+        "duration_ms": 12
+      }
+    }
+  ]
+}

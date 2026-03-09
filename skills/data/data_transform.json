@@ -1,0 +1,49 @@
+{
+  "name": "data_transform",
+  "description": "对数据进行格式转换，支持 JSON、CSV、YAML、XML 之间的互相转换。当需要转换数据格式以便于处理或展示时使用。",
+  "category": "data",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "data": {
+        "type": "string",
+        "description": "待转换的数据字符串"
+      },
+      "from_format": {
+        "type": "string",
+        "description": "数据的源格式",
+        "enum": ["json", "csv", "yaml", "xml"]
+      },
+      "to_format": {
+        "type": "string",
+        "description": "目标格式",
+        "enum": ["json", "csv", "yaml", "xml"]
+      },
+      "pretty": {
+        "type": "boolean",
+        "description": "是否格式化输出（仅对 JSON、XML、YAML 有效），默认 true",
+        "default": true
+      }
+    },
+    "required": ["data", "from_format", "to_format"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含转换后的数据字符串"
+  },
+  "examples": [
+    {
+      "input": {
+        "data": "name,age\n张三,28\n李四,32",
+        "from_format": "csv",
+        "to_format": "json",
+        "pretty": true
+      },
+      "output": {
+        "success": true,
+        "result": "[\n  {\"name\": \"张三\", \"age\": \"28\"},\n  {\"name\": \"李四\", \"age\": \"32\"}\n]"
+      }
+    }
+  ]
+}

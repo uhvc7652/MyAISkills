@@ -1,0 +1,37 @@
+{
+  "name": "data_parse_json",
+  "description": "解析 JSON 字符串并提取指定字段的值。支持 JSONPath 语法进行深层查询。当需要从 JSON 数据中提取特定信息时使用。",
+  "category": "data",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "json_string": {
+        "type": "string",
+        "description": "要解析的 JSON 格式字符串"
+      },
+      "path": {
+        "type": "string",
+        "description": "JSONPath 表达式，用于提取目标字段。如 '$.user.name'、'$.items[0].price'。不填则返回整个解析后的对象。"
+      }
+    },
+    "required": ["json_string"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含提取到的值，以及解析是否成功的状态"
+  },
+  "examples": [
+    {
+      "input": {
+        "json_string": "{\"user\": {\"name\": \"张三\", \"age\": 28}}",
+        "path": "$.user.name"
+      },
+      "output": {
+        "success": true,
+        "value": "张三",
+        "type": "string"
+      }
+    }
+  ]
+}
