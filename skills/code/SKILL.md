@@ -26,6 +26,8 @@ Execute code snippets in various programming languages and return the results.
 ### code_add_comments
 Add explanatory comments to code to improve readability and maintainability.
 
+**Supported Languages**: JavaScript, TypeScript, Java, C#
+
 **Usage**: When code lacks documentation or needs better inline explanations.
 
 ### code_add_jsdoc
@@ -38,10 +40,12 @@ Generate unit tests for given code based on the programming language and testing
 
 **Usage**: When you need to create test cases for functions, classes, or modules.
 
-### file_add_jsdoc
-Read a JavaScript or TypeScript file from disk, automatically add JSDoc placeholder comments to undocumented functions, classes, and file headers, then write the result back to the file.
+### code_add_jsdoc_file
+Read a code file from disk and add standard documentation comments to undocumented functions, classes, and file headers, then write the result back to the file.
 
-**Supported Extensions**: `.js`, `.mjs`, `.cjs`, `.ts`, `.tsx`
+**Supported Extensions**: `.js`, `.mjs`, `.cjs`, `.ts`, `.tsx`, `.java`, `.cs`
+
+**Comment Standards**: JSDoc (JS/TS), JavaDoc (Java), XML Documentation (C#)
 
 **Usage**: When you need to document an existing file in-place using JSDoc annotations. Supports optional `.bak` backup before overwriting.
 

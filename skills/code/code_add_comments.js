@@ -1,6 +1,6 @@
 /**
  * @fileoverview 普通代码注释补全技能实现
- * 为 JavaScript 或 TypeScript 代码补充基础说明性注释。
+ * 为 JavaScript、TypeScript、Java 或 C# 代码补充基础说明性注释。
  * @module skills/code/code_add_comments
  */
 
@@ -10,7 +10,7 @@
  * 普通注释补全技能的输入参数。
  * @typedef {Object} CodeAddCommentsParams
  * @property {string} code - 需要补充注释的源码字符串
- * @property {'javascript'|'typescript'} [language='javascript'] - 源码语言
+ * @property {'javascript'|'typescript'|'java'|'csharp'} [language='javascript'] - 源码语言
  * @property {boolean} [include_file_comment=true] - 是否补充文件顶部注释
  * @property {boolean} [include_inline_return_comments=false] - 是否补充 return 前的行内说明
  */
@@ -33,7 +33,7 @@
  */
 
 /**
- * 为 JavaScript / TypeScript 代码补充普通说明注释。
+ * 为 JavaScript / TypeScript / Java / C# 代码补充普通说明注释。
  *
  * 当前实现采用轻量规则，仅处理单行函数 / 类声明，
  * 并可选地为尚未带前置注释的 return 语句补充简单说明。
@@ -52,7 +52,7 @@ async function codeAddComments(params) {
     include_inline_return_comments = false,
   } = params;
 
-  const supportedLanguages = ['javascript', 'typescript'];
+  const supportedLanguages = ['javascript', 'typescript', 'java', 'csharp'];
   if (!code || code.trim() === '') {
     throw new Error('参数 code 不能为空');
   }
@@ -73,7 +73,7 @@ async function codeAddComments(params) {
 
   for (let index = 0; index < sourceLines.length; index += 1) {
     const line = sourceLines[index];
-    const declaration = _matchCommentableDeclaration(line);
+    const declaration = _matchCommentableDeclaration(line, language);
 
     if (declaration && !_hasLeadingPlainComment(sourceLines, index)) {
       outputLines.push(`${declaration.indent}// TODO: 说明 ${declaration.name} 的主要职责。`);
@@ -110,34 +110,83 @@ async function codeAddComments(params) {
  *
  * @private
  * @param {string} line - 当前源码行
+ * @param {'javascript'|'typescript'|'java'|'csharp'} language - 源码语言
  * @returns {{kind: 'function'|'class', name: string, indent: string}|null} 声明信息
  */
-function _matchCommentableDeclaration(line) {
-  const functionMatch = line.match(/^(\s*)(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(/);
-  if (functionMatch) {
-    return {
-      kind: 'function',
-      indent: functionMatch[1],
-      name: functionMatch[2],
-    };
+function _matchCommentableDeclaration(line, language) {
+  if (language === 'javascript' || language === 'typescript') {
+    const functionMatch = line.match(/^(\s*)(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(/);
+    if (functionMatch) {
+      return {
+        kind: 'function',
+        indent: functionMatch[1],
+        name: functionMatch[2],
+      };
+    }
+
+    const arrowFunctionMatch = line.match(/^(\s*)(?:export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?(?:\((.*)\)|([A-Za-z_$][\w$]*))\s*=>/);
+    if (arrowFunctionMatch) {
+      return {
+        kind: 'function',
+        indent: arrowFunctionMatch[1],
+        name: arrowFunctionMatch[2],
+      };
+    }
+
+    const classMatch = line.match(/^(\s*)(?:export\s+)?class\s+([A-Za-z_$][\w$]*)\b/);
+    if (classMatch) {
+      return {
+        kind: 'class',
+        indent: classMatch[1],
+        name: classMatch[2],
+      };
+    }
+
+    return null;
   }
 
-  const arrowFunctionMatch = line.match(/^(\s*)(?:export\s+)?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s*)?(?:\((.*)\)|([A-Za-z_$][\w$]*))\s*=>/);
-  if (arrowFunctionMatch) {
-    return {
-      kind: 'function',
-      indent: arrowFunctionMatch[1],
-      name: arrowFunctionMatch[2],
-    };
+  if (language === 'java') {
+    const classMatch = line.match(/^(\s*)(?:public|protected|private)?\s*(?:abstract\s+|final\s+)?class\s+([A-Za-z_][\w]*)\b/);
+    if (classMatch) {
+      return {
+        kind: 'class',
+        indent: classMatch[1],
+        name: classMatch[2],
+      };
+    }
+
+    const methodMatch = line.match(/^(\s*)(?:public|protected|private)\s+(?:static\s+)?(?:final\s+)?(?:synchronized\s+)?(?:<[^>]+>\s+)?[A-Za-z_][\w<>\[\], ?]*\s+([A-Za-z_][\w]*)\s*\([^;]*\)\s*(?:throws\s+[A-Za-z_][\w.,\s]*)?\s*\{/);
+    if (methodMatch && methodMatch[2] !== 'if' && methodMatch[2] !== 'for' && methodMatch[2] !== 'while') {
+      return {
+        kind: 'function',
+        indent: methodMatch[1],
+        name: methodMatch[2],
+      };
+    }
+
+    return null;
   }
 
-  const classMatch = line.match(/^(\s*)(?:export\s+)?class\s+([A-Za-z_$][\w$]*)\b/);
-  if (classMatch) {
-    return {
-      kind: 'class',
-      indent: classMatch[1],
-      name: classMatch[2],
-    };
+  if (language === 'csharp') {
+    const classMatch = line.match(/^(\s*)(?:public|protected|private|internal)\s+(?:abstract\s+|sealed\s+|static\s+|partial\s+)*class\s+([A-Za-z_][\w]*)\b/);
+    if (classMatch) {
+      return {
+        kind: 'class',
+        indent: classMatch[1],
+        name: classMatch[2],
+      };
+    }
+
+    const methodMatch = line.match(/^(\s*)(?:public|protected|private|internal)\s+(?:static\s+|virtual\s+|override\s+|abstract\s+|async\s+|sealed\s+|new\s+)*[A-Za-z_][\w<>,.?\[\]]*\s+([A-Za-z_][\w]*)\s*\([^;]*\)\s*(?:where\s+[^\{]+)?\s*\{/);
+    if (methodMatch && methodMatch[2] !== 'if' && methodMatch[2] !== 'for' && methodMatch[2] !== 'while' && methodMatch[2] !== 'switch') {
+      return {
+        kind: 'function',
+        indent: methodMatch[1],
+        name: methodMatch[2],
+      };
+    }
+
+    return null;
   }
 
   return null;

@@ -1,6 +1,6 @@
 {
-    "name": "file_add_jsdoc",
-    "description": "读取指定 JavaScript 或 TypeScript 文件，自动为缺少注释的函数、类和文件头补充 JSDoc 占位注释，然后将结果写回原文件。支持可选备份原文件。",
+    "name": "code_add_jsdoc_file",
+    "description": "读取指定代码文件并按语言标准自动补充文档注释：JavaScript/TypeScript 使用 JSDoc，Java 使用 JavaDoc，C# 使用 XML Documentation。支持可选备份原文件。",
     "category": "code",
     "version": "1.0.0",
     "parameters": {
@@ -8,11 +8,11 @@
         "properties": {
             "file_path": {
                 "type": "string",
-                "description": "目标文件的绝对路径或相对路径，支持 .js、.mjs、.cjs、.ts、.tsx 扩展名"
+                "description": "目标文件的绝对路径或相对路径，支持 .js、.mjs、.cjs、.ts、.tsx、.java、.cs 扩展名"
             },
             "include_fileoverview": {
                 "type": "boolean",
-                "description": "是否在文件顶部补充 @fileoverview 注释（若文件已有则跳过）",
+                "description": "是否在文件顶部补充文件级文档注释（若文件已有则跳过）",
                 "default": true
             },
             "include_private": {
@@ -88,6 +88,54 @@
                     }
                 ],
                 "duration_ms": 8
+            }
+        },
+        {
+            "input": {
+                "file_path": "./src/service/OrderService.java",
+                "include_fileoverview": true
+            },
+            "output": {
+                "success": true,
+                "file_path": "/project/src/service/OrderService.java",
+                "added_count": 2,
+                "added_blocks": [
+                    {
+                        "type": "file",
+                        "name": "file_comment",
+                        "line": 1
+                    },
+                    {
+                        "type": "function",
+                        "name": "createOrder",
+                        "line": 10
+                    }
+                ],
+                "duration_ms": 10
+            }
+        },
+        {
+            "input": {
+                "file_path": "./src/OrderService.cs",
+                "include_fileoverview": true
+            },
+            "output": {
+                "success": true,
+                "file_path": "/project/src/OrderService.cs",
+                "added_count": 2,
+                "added_blocks": [
+                    {
+                        "type": "file",
+                        "name": "file_comment",
+                        "line": 1
+                    },
+                    {
+                        "type": "function",
+                        "name": "CreateOrder",
+                        "line": 12
+                    }
+                ],
+                "duration_ms": 9
             }
         }
     ]

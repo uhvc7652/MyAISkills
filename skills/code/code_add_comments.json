@@ -1,6 +1,6 @@
 {
   "name": "code_add_comments",
-  "description": "为 JavaScript 或 TypeScript 代码补充普通注释，帮助解释文件用途、函数职责和关键返回逻辑。",
+  "description": "为 JavaScript、TypeScript、Java 或 C# 代码补充普通注释，帮助解释文件用途、类/函数职责和关键返回逻辑。",
   "category": "code",
   "version": "1.0.0",
   "parameters": {
@@ -12,8 +12,13 @@
       },
       "language": {
         "type": "string",
-        "description": "源码语言，仅支持 JavaScript 或 TypeScript",
-        "enum": ["javascript", "typescript"],
+        "description": "源码语言，支持 JavaScript、TypeScript、Java、C#",
+        "enum": [
+          "javascript",
+          "typescript",
+          "java",
+          "csharp"
+        ],
         "default": "javascript"
       },
       "include_file_comment": {
@@ -27,7 +32,9 @@
         "default": false
       }
     },
-    "required": ["code"]
+    "required": [
+      "code"
+    ]
   },
   "returns": {
     "type": "object",
@@ -58,6 +65,39 @@
             "type": "inline",
             "name": "return",
             "line": 5
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "code": "public class OrderService {\n    public int CountActive(List<Order> orders) {\n        return orders.Count(o => o.IsActive);\n    }\n}\n",
+        "language": "csharp",
+        "include_file_comment": true,
+        "include_inline_return_comments": true
+      },
+      "output": {
+        "commented_code": "// TODO: 补充当前文件的用途说明。\n\n// TODO: 说明 OrderService 的主要职责。\npublic class OrderService {\n    // TODO: 说明 CountActive 的主要职责。\n    public int CountActive(List<Order> orders) {\n        // TODO: 说明这里返回的结果含义。\n        return orders.Count(o => o.IsActive);\n    }\n}\n",
+        "added_comments": [
+          {
+            "type": "file",
+            "name": "file_comment",
+            "line": 1
+          },
+          {
+            "type": "class",
+            "name": "OrderService",
+            "line": 3
+          },
+          {
+            "type": "function",
+            "name": "CountActive",
+            "line": 5
+          },
+          {
+            "type": "inline",
+            "name": "return",
+            "line": 7
           }
         ]
       }
