@@ -25,38 +25,42 @@
 /** @typedef {import('./types.js').SkillHandler} SkillHandler */
 
 // ── 技能实现导入 ─────────────────────────────────────────────────────────────
-const { webSearch }     = require('./web/web_search');
-const { webFetch }      = require('./web/web_fetch');
-const { codeExecute }   = require('./code/code_execute');
-const { codeAnalyze }   = require('./code/code_analyze');
-const { codeAddJsdoc }  = require('./code/code_add_jsdoc');
+const { webSearch } = require('./web/web_search');
+const { webFetch } = require('./web/web_fetch');
+const { codeExecute } = require('./code/code_execute');
+const { codeAnalyze } = require('./code/code_analyze');
+const { codeAddJsdoc } = require('./code/code_add_jsdoc');
+const { fileAddJsdoc } = require('./code/file_add_jsdoc');
 const { codeAddComments } = require('./code/code_add_comments');
 const { codeRefactorSuggest } = require('./code/code_refactor_suggest');
 const { codeGenerateTests } = require('./code/code_generate_tests');
-const { fileRead }      = require('./file/file_read');
-const { fileWrite }     = require('./file/file_write');
-const { fileList }      = require('./file/file_list');
+const { fileRead } = require('./file/file_read');
+const { fileWrite } = require('./file/file_write');
+const { fileList } = require('./file/file_list');
 const { dataParseJson } = require('./data/data_parse_json');
 const { dataTransform } = require('./data/data_transform');
-const { getCurrentTime }= require('./utility/get_current_time');
-const { calculate }     = require('./utility/calculate');
+const { getCurrentTime } = require('./utility/get_current_time');
+const { calculate } = require('./utility/calculate');
+const { requirementsClarify } = require('./utility/requirements_clarify');
 
 // ── JSON 定义导入 ────────────────────────────────────────────────────────────
-const webSearchDef     = require('./web/web_search.json');
-const webFetchDef      = require('./web/web_fetch.json');
-const codeExecuteDef   = require('./code/code_execute.json');
-const codeAnalyzeDef   = require('./code/code_analyze.json');
-const codeAddJsdocDef  = require('./code/code_add_jsdoc.json');
+const webSearchDef = require('./web/web_search.json');
+const webFetchDef = require('./web/web_fetch.json');
+const codeExecuteDef = require('./code/code_execute.json');
+const codeAnalyzeDef = require('./code/code_analyze.json');
+const codeAddJsdocDef = require('./code/code_add_jsdoc.json');
+const fileAddJsdocDef = require('./code/file_add_jsdoc.json');
 const codeAddCommentsDef = require('./code/code_add_comments.json');
 const codeRefactorSuggestDef = require('./code/code_refactor_suggest.json');
 const codeGenerateTestsDef = require('./code/code_generate_tests.json');
-const fileReadDef      = require('./file/file_read.json');
-const fileWriteDef     = require('./file/file_write.json');
-const fileListDef      = require('./file/file_list.json');
+const fileReadDef = require('./file/file_read.json');
+const fileWriteDef = require('./file/file_write.json');
+const fileListDef = require('./file/file_list.json');
 const dataParseJsonDef = require('./data/data_parse_json.json');
 const dataTransformDef = require('./data/data_transform.json');
-const getCurrentTimeDef= require('./utility/get_current_time.json');
-const calculateDef     = require('./utility/calculate.json');
+const getCurrentTimeDef = require('./utility/get_current_time.json');
+const calculateDef = require('./utility/calculate.json');
+const requirementsClarifyDef = require('./utility/requirements_clarify.json');
 
 // ── 内部注册表 ───────────────────────────────────────────────────────────────
 
@@ -66,21 +70,23 @@ const calculateDef     = require('./utility/calculate.json');
  * @private
  */
 const _registry = new Map([
-  ['web_search',      { definition: webSearchDef,     handler: webSearch }],
-  ['web_fetch',       { definition: webFetchDef,       handler: webFetch }],
-  ['code_execute',    { definition: codeExecuteDef,    handler: codeExecute }],
-  ['code_analyze',    { definition: codeAnalyzeDef,    handler: codeAnalyze }],
-  ['code_add_jsdoc',  { definition: codeAddJsdocDef,   handler: codeAddJsdoc }],
+  ['web_search', { definition: webSearchDef, handler: webSearch }],
+  ['web_fetch', { definition: webFetchDef, handler: webFetch }],
+  ['code_execute', { definition: codeExecuteDef, handler: codeExecute }],
+  ['code_analyze', { definition: codeAnalyzeDef, handler: codeAnalyze }],
+  ['code_add_jsdoc', { definition: codeAddJsdocDef, handler: codeAddJsdoc }],
+  ['file_add_jsdoc', { definition: fileAddJsdocDef, handler: fileAddJsdoc }],
   ['code_add_comments', { definition: codeAddCommentsDef, handler: codeAddComments }],
   ['code_refactor_suggest', { definition: codeRefactorSuggestDef, handler: codeRefactorSuggest }],
   ['code_generate_tests', { definition: codeGenerateTestsDef, handler: codeGenerateTests }],
-  ['file_read',       { definition: fileReadDef,       handler: fileRead }],
-  ['file_write',      { definition: fileWriteDef,      handler: fileWrite }],
-  ['file_list',       { definition: fileListDef,       handler: fileList }],
-  ['data_parse_json', { definition: dataParseJsonDef,  handler: dataParseJson }],
-  ['data_transform',  { definition: dataTransformDef,  handler: dataTransform }],
-  ['get_current_time',{ definition: getCurrentTimeDef, handler: getCurrentTime }],
-  ['calculate',       { definition: calculateDef,      handler: calculate }],
+  ['file_read', { definition: fileReadDef, handler: fileRead }],
+  ['file_write', { definition: fileWriteDef, handler: fileWrite }],
+  ['file_list', { definition: fileListDef, handler: fileList }],
+  ['data_parse_json', { definition: dataParseJsonDef, handler: dataParseJson }],
+  ['data_transform', { definition: dataTransformDef, handler: dataTransform }],
+  ['get_current_time', { definition: getCurrentTimeDef, handler: getCurrentTime }],
+  ['calculate', { definition: calculateDef, handler: calculate }],
+  ['requirements_clarify', { definition: requirementsClarifyDef, handler: requirementsClarify }],
 ]);
 
 // ── 公开 API ─────────────────────────────────────────────────────────────────

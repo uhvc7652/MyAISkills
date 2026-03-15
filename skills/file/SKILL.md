@@ -1,8 +1,6 @@
 ---
 name: file
 description: File system operations for reading, writing, and listing files
-category: file
-version: 1.0.0
 ---
 
 # File Skills
@@ -81,3 +79,4 @@ file_list({
 - **Data Export**: Save processed data to files
 - **Project Navigation**: Explore directory structure and find files
 - **Backup Creation**: Read files for backup or migration
+

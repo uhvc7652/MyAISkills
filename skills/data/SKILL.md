@@ -1,8 +1,6 @@
 ---
 name: data
 description: Data processing and transformation skills
-category: data
-version: 1.0.0
 ---
 
 # Data Skills
@@ -49,3 +47,4 @@ data_transform({
 - **Format Conversion**: Convert between JSON, CSV, XML, and YAML
 - **Data Extraction**: Extract specific fields from structured data
 - **Data Restructuring**: Transform data structure to match required format
+

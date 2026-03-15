@@ -1,0 +1,94 @@
+{
+    "name": "file_add_jsdoc",
+    "description": "读取指定 JavaScript 或 TypeScript 文件，自动为缺少注释的函数、类和文件头补充 JSDoc 占位注释，然后将结果写回原文件。支持可选备份原文件。",
+    "category": "code",
+    "version": "1.0.0",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "file_path": {
+                "type": "string",
+                "description": "目标文件的绝对路径或相对路径，支持 .js、.mjs、.cjs、.ts、.tsx 扩展名"
+            },
+            "include_fileoverview": {
+                "type": "boolean",
+                "description": "是否在文件顶部补充 @fileoverview 注释（若文件已有则跳过）",
+                "default": true
+            },
+            "include_private": {
+                "type": "boolean",
+                "description": "是否为以下划线开头的私有符号补充注释",
+                "default": false
+            },
+            "backup": {
+                "type": "boolean",
+                "description": "是否在覆写前将原文件备份为 <filename>.bak",
+                "default": false
+            }
+        },
+        "required": [
+            "file_path"
+        ]
+    },
+    "returns": {
+        "type": "object",
+        "description": "包含操作结果、新增注释数量、注释块列表和可选备份路径的对象"
+    },
+    "examples": [
+        {
+            "input": {
+                "file_path": "./src/utils.js",
+                "include_fileoverview": true,
+                "backup": true
+            },
+            "output": {
+                "success": true,
+                "file_path": "/project/src/utils.js",
+                "backup_path": "/project/src/utils.js.bak",
+                "added_count": 3,
+                "added_blocks": [
+                    {
+                        "type": "file",
+                        "name": "@fileoverview",
+                        "line": 1
+                    },
+                    {
+                        "type": "function",
+                        "name": "formatDate",
+                        "line": 6
+                    },
+                    {
+                        "type": "function",
+                        "name": "parseQuery",
+                        "line": 15
+                    }
+                ],
+                "duration_ms": 12
+            }
+        },
+        {
+            "input": {
+                "file_path": "./lib/models.ts",
+                "include_private": false
+            },
+            "output": {
+                "success": true,
+                "file_path": "/project/lib/models.ts",
+                "added_count": 2,
+                "added_blocks": [
+                    {
+                        "type": "class",
+                        "name": "UserModel",
+                        "line": 1
+                    },
+                    {
+                        "type": "function",
+                        "name": "validate",
+                        "line": 10
+                    }
+                ],
+                "duration_ms": 8
+            }
+        }
+    ]
+}

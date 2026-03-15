@@ -1,8 +1,6 @@
 ---
 name: web
 description: Web-related skills for searching and fetching online content
-category: web
-version: 1.0.0
 ---
 
 # Web Skills
@@ -69,3 +67,4 @@ web_fetch({
 - Use `web_fetch` when you have a specific URL to retrieve
 - Always respect website terms of service and robots.txt
 - Cache frequently accessed content to reduce network requests
+

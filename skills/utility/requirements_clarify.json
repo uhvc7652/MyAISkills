@@ -1,0 +1,89 @@
+{
+    "name": "requirements_clarify",
+    "description": "针对用户问题生成高质量澄清问题清单，优先覆盖实现细节、功能分支取舍与可选功能，帮助 AI 在执行前与用户对齐范围、约束和验收标准。",
+    "category": "utility",
+    "version": "1.0.0",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "problem_statement": {
+                "type": "string",
+                "description": "用户当前的问题描述或需求原文"
+            },
+            "context": {
+                "type": "string",
+                "description": "可选上下文（如业务背景、已有系统、当前限制）"
+            },
+            "focus_areas": {
+                "type": "array",
+                "description": "希望重点追问的方向；未传入时默认全覆盖",
+                "items": {
+                    "type": "string",
+                    "enum": [
+                        "implementation_details",
+                        "branch_tradeoffs",
+                        "optional_features",
+                        "constraints",
+                        "acceptance_criteria",
+                        "risks"
+                    ]
+                }
+            },
+            "max_questions": {
+                "type": "integer",
+                "description": "最多输出的问题数量，默认 12，范围 6-30",
+                "default": 12,
+                "minimum": 6,
+                "maximum": 30
+            },
+            "question_style": {
+                "type": "string",
+                "description": "问题风格：concise 为短问句，detailed 为带上下文的完整问句",
+                "enum": [
+                    "concise",
+                    "detailed"
+                ],
+                "default": "concise"
+            },
+            "include_priority": {
+                "type": "boolean",
+                "description": "是否返回优先级建议（高/中/低），默认 true",
+                "default": true
+            }
+        },
+        "required": [
+            "problem_statement"
+        ]
+    },
+    "returns": {
+        "type": "object",
+        "description": "包含分类澄清问题、推荐追问顺序与决策检查清单"
+    },
+    "examples": [
+        {
+            "input": {
+                "problem_statement": "帮我做一个订单导出功能",
+                "focus_areas": [
+                    "implementation_details",
+                    "branch_tradeoffs",
+                    "optional_features"
+                ],
+                "max_questions": 10,
+                "question_style": "concise"
+            },
+            "output": {
+                "success": true,
+                "summary": "已围绕实现细节、分支取舍与可选功能生成追问清单。",
+                "question_count": 10,
+                "questions": [
+                    {
+                        "id": "Q1",
+                        "category": "implementation_details",
+                        "priority": "high",
+                        "question": "导出范围是当前筛选结果，还是全量历史订单？"
+                    }
+                ]
+            }
+        }
+    ]
+}

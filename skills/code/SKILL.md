@@ -1,8 +1,6 @@
 ---
 name: code
 description: Code-related skills for analyzing, executing, and improving code
-category: code
-version: 1.0.0
 ---
 
 # Code Skills
@@ -40,6 +38,13 @@ Generate unit tests for given code based on the programming language and testing
 
 **Usage**: When you need to create test cases for functions, classes, or modules.
 
+### file_add_jsdoc
+Read a JavaScript or TypeScript file from disk, automatically add JSDoc placeholder comments to undocumented functions, classes, and file headers, then write the result back to the file.
+
+**Supported Extensions**: `.js`, `.mjs`, `.cjs`, `.ts`, `.tsx`
+
+**Usage**: When you need to document an existing file in-place using JSDoc annotations. Supports optional `.bak` backup before overwriting.
+
 ### code_refactor_suggest
 Analyze code and provide refactoring suggestions to improve code quality, readability, and maintainability.
 
@@ -75,3 +80,4 @@ code_generate_tests({
   framework: "jest"
 })
 ```
+

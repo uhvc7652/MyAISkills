@@ -135,6 +135,7 @@ All skills are located in the `skills/` directory, organized by category:
 **Utility Category** - `skills/utility/`
 - `get_current_time` - Get current time
 - `calculate` - Mathematical calculations
+- `requirements_clarify` - Generate requirement clarification and trade-off questions
 
 ---
 

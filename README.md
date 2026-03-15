@@ -54,7 +54,9 @@ MyAISkills/
 │       ├── get_current_time.json
 │       ├── get_current_time.js
 │       ├── calculate.json
-│       └── calculate.js
+│       ├── calculate.js
+│       ├── requirements_clarify.json
+│       └── requirements_clarify.js
 ├── schema/                  # 技能定义的 JSON Schema
 │   └── skill.schema.json
 ├── scripts/                 # 辅助脚本
@@ -158,6 +160,7 @@ npm run validate
 **工具类 (Utility)** - `skills/utility/`
 - `get_current_time` - 获取当前时间
 - `calculate` - 数学计算
+- `requirements_clarify` - 需求澄清与方案取舍问题生成
 
 ---
 
