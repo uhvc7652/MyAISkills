@@ -31,7 +31,7 @@ Add explanatory comments to code to improve readability and maintainability.
 **Usage**: When code lacks documentation or needs better inline explanations.
 
 ### code_add_jsdoc
-Add JSDoc-style documentation comments to JavaScript/TypeScript code.
+Add JSDoc-style documentation comments to JavaScript/TypeScript code in Chinese.
 
 **Usage**: When you need to document JavaScript/TypeScript functions, classes, and modules with proper JSDoc annotations.
 
@@ -53,6 +53,11 @@ Read a code file from disk and add standard documentation comments to undocument
 Analyze code and provide refactoring suggestions to improve code quality, readability, and maintainability.
 
 **Usage**: When code needs optimization, simplification, or restructuring.
+
+### code_godot_scene_binding_refactor
+Analyze Godot scene or prefab scripts for string-based node lookups and direct node exposure, then suggest refactoring toward exported bindings and script behavior methods.
+
+**Usage**: When refactoring Godot UI code to avoid `GetNode("...")`, `GetNodeOrNull("...")`, or returning internal scene nodes directly.
 
 ## Examples
 

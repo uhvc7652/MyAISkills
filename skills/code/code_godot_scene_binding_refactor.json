@@ -1,0 +1,51 @@
+{
+  "name": "code_godot_scene_binding_refactor",
+  "description": "分析 Godot 场景/预制体脚本中通过 GetNode、GetNodeOrNull 或字符串节点路径访问子节点的代码，并输出改造成导出绑定与脚本行为方法的结构化建议。",
+  "category": "code",
+  "version": "1.0.0",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "需要分析的源码字符串"
+      },
+      "language": {
+        "type": "string",
+        "description": "编程语言",
+        "enum": ["csharp", "gdscript"],
+        "default": "csharp"
+      },
+      "prefer_wrapper_methods": {
+        "type": "boolean",
+        "description": "是否优先建议由预制体脚本暴露行为方法而不是直接暴露节点",
+        "default": true
+      }
+    },
+    "required": ["code"]
+  },
+  "returns": {
+    "type": "object",
+    "description": "包含问题摘要、命中规则和推荐改造步骤"
+  },
+  "examples": [
+    {
+      "input": {
+        "code": "var label = GetNode<Label>(\"Title\");\nrow.GetNodeOrNull<Control>(\"EditorSlot\");",
+        "language": "csharp",
+        "prefer_wrapper_methods": true
+      },
+      "output": {
+        "summary": "检测到 2 处字符串路径节点访问，建议改为导出绑定与脚本方法。",
+        "findings": [
+          {
+            "title": "避免直接使用字符串路径访问节点",
+            "severity": "high",
+            "evidence": "GetNode<Label>(\"Title\")",
+            "recommendation": "将节点通过 [Export] 绑定到对应场景脚本，并由脚本提供 SetTitle/SetEditor 等行为方法。"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -32,6 +32,7 @@ const { codeAnalyze } = require('./code/code_analyze');
 const { codeAddJsdoc } = require('./code/code_add_jsdoc');
 const { codeAddJsdocFile } = require('./code/code_add_jsdoc_file');
 const { codeAddComments } = require('./code/code_add_comments');
+const { codeGodotSceneBindingRefactor } = require('./code/code_godot_scene_binding_refactor');
 const { codeRefactorSuggest } = require('./code/code_refactor_suggest');
 const { codeGenerateTests } = require('./code/code_generate_tests');
 const { fileRead } = require('./file/file_read');
@@ -51,6 +52,7 @@ const codeAnalyzeDef = require('./code/code_analyze.json');
 const codeAddJsdocDef = require('./code/code_add_jsdoc.json');
 const codeAddJsdocFileDef = require('./code/code_add_jsdoc_file.json');
 const codeAddCommentsDef = require('./code/code_add_comments.json');
+const codeGodotSceneBindingRefactorDef = require('./code/code_godot_scene_binding_refactor.json');
 const codeRefactorSuggestDef = require('./code/code_refactor_suggest.json');
 const codeGenerateTestsDef = require('./code/code_generate_tests.json');
 const fileReadDef = require('./file/file_read.json');
@@ -77,6 +79,7 @@ const _registry = new Map([
   ['code_add_jsdoc', { definition: codeAddJsdocDef, handler: codeAddJsdoc }],
   ['code_add_jsdoc_file', { definition: codeAddJsdocFileDef, handler: codeAddJsdocFile }],
   ['code_add_comments', { definition: codeAddCommentsDef, handler: codeAddComments }],
+  ['code_godot_scene_binding_refactor', { definition: codeGodotSceneBindingRefactorDef, handler: codeGodotSceneBindingRefactor }],
   ['code_refactor_suggest', { definition: codeRefactorSuggestDef, handler: codeRefactorSuggest }],
   ['code_generate_tests', { definition: codeGenerateTestsDef, handler: codeGenerateTests }],
   ['file_read', { definition: fileReadDef, handler: fileRead }],
